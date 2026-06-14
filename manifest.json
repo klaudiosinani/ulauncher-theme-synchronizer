@@ -1,0 +1,34 @@
+{
+    "required_api_version": "2",
+    "name": "Ulauncher Theme Synchronizer",
+    "description": "Synchronize Ulauncher with your OS appearance",
+    "version": "1.0.0",
+    "developer_name": "Klaudio Sinani",
+    "icon": "images/icon.png",
+    "options": {
+        "query_debounce": 0.1
+    },
+    "preferences": [
+        {
+            "id": "theme_kw",
+            "type": "keyword",
+            "name": "Auto Theme",
+            "description": "Shows the current theme sync status.",
+            "default_value": "uts"
+        },
+        {
+            "id": "light_theme",
+            "type": "input",
+            "name": "Light Theme",
+            "description": "Theme name to use in light mode. Must match a folder in ~/.config/ulauncher/user-themes/ or a built-in theme name.",
+            "default_value": "light"
+        },
+        {
+            "id": "dark_theme",
+            "type": "input",
+            "name": "Dark Theme",
+            "description": "Theme name to use in dark mode. Must match a folder in ~/.config/ulauncher/user-themes/ or a built-in theme name.",
+            "default_value": "dark"
+        }
+    ]
+}
