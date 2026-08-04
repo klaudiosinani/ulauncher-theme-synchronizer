@@ -1,4 +1,4 @@
-from gi.overrides.Gio import Gio
+from gi.repository import Gio
 from ulauncher.api.client.Extension import Extension
 from ulauncher.api.shared.action.HideWindowAction import HideWindowAction
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
