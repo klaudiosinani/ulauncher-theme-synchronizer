@@ -1,11 +1,12 @@
 import types
+from typing import Any
 from unittest.mock import MagicMock
 
 from tests.support.module_registry import package, register
 
 
 class GioSettingsStub:
-    def connect(self, detailed_signal: str, callback):
+    def connect(self, detailed_signal: str, callback: Any):
         return 1
 
     def disconnect(self, detailed_signal: str):
@@ -25,13 +26,13 @@ class GLibMainLoopStub:
 
 
 def install_gi_stubs() -> None:
-    gi_module = package("gi")
-    repository_module = package("gi.repository")
-    overrides_module = package("gi.overrides")
+    gi_module: Any = package("gi")
+    repository_module: Any = package("gi.repository")
+    overrides_module: Any = package("gi.overrides")
 
-    gio_module = types.ModuleType("gi.repository.Gio")
-    glib_module = types.ModuleType("gi.repository.GLib")
-    gio_overrides_module = types.ModuleType("gi.overrides.Gio")
+    gio_module: Any = types.ModuleType("gi.repository.Gio")
+    glib_module: Any = types.ModuleType("gi.repository.GLib")
+    gio_overrides_module: Any = types.ModuleType("gi.overrides.Gio")
 
     gio_module.Settings = GioSettingsStub
     glib_module.MainLoop = GLibMainLoopStub
