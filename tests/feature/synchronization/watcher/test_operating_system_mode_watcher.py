@@ -1,3 +1,4 @@
+# pyright: reportPrivateUsage=false
 from collections.abc import Generator
 from dataclasses import dataclass
 from typing import Any

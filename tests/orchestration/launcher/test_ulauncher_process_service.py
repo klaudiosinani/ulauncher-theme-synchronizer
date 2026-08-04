@@ -1,3 +1,4 @@
+# pyright: reportPrivateUsage=false
 import signal
 import subprocess
 from dataclasses import dataclass
@@ -113,12 +114,8 @@ class TestUlauncherProcessService:
     ) -> None:
         # given
         with (
-            patch.object(
-                under_test_context.under_test,
-                "retrieve_pids",
-                side_effect=[{ULAUNCHER_PID}, {ULAUNCHER_PID, ULAUNCHER_RESTARTED_PID}],
-            ),
-            patch.object(under_test_context.under_test, "start") as start,
+            patch.object(under_test_context.under_test, "retrieve_pids", side_effect=[{ULAUNCHER_PID}]),
+            patch.object(under_test_context.under_test, "start", side_effect=[{ULAUNCHER_RESTARTED_PID}]) as start,
             patch.object(under_test_context.under_test, "stop") as stop,
             patch("src.orchestration.launcher.ulauncher_process_service.logger.info") as logger,
         ):
@@ -130,73 +127,5 @@ class TestUlauncherProcessService:
         stop.assert_called_once_with({ULAUNCHER_PID})
         logger.info()
         logger.assert_called_once_with(
-            "Ulauncher restarted (previous pids=%s, new pids=%s)", {ULAUNCHER_PID}, {ULAUNCHER_RESTARTED_PID}
-        )
-
-    def test_given_existing_and_new_pids_when_retrieve_new_pids_then_returns_only_new_ones(
-        self, under_test_context: UnderTestContext
-    ) -> None:
-        # given
-        with (
-            patch.object(
-                under_test_context.under_test,
-                "retrieve_pids",
-                side_effect=[{ULAUNCHER_PID}, {ULAUNCHER_PID, ULAUNCHER_RESTARTED_PID}],
-            ),
-            patch("src.orchestration.launcher.ulauncher_process_service.time.monotonic", side_effect=[0.0, 1.0, 2.0]),
-            patch("src.orchestration.launcher.ulauncher_process_service.time.sleep"),
-        ):
-            # when
-            result = under_test_context.under_test._retrieve_new_pids({ULAUNCHER_PID})
-
-        # then
-        assert result == {ULAUNCHER_RESTARTED_PID}
-
-    def test_given_timeout_when_retrieve_new_pids_then_returns_empty_set(
-        self,
-        under_test_context: UnderTestContext,
-    ) -> None:
-        with (
-            patch.object(
-                under_test_context.under_test,
-                "retrieve_pids",
-                side_effect=[{100}, {100}],
-            ),
-            patch(
-                "src.orchestration.launcher.ulauncher_process_service.time.monotonic",
-                side_effect=[0.0, 1.0, 11.0],
-            ),
-            patch("src.orchestration.launcher.ulauncher_process_service.time.sleep") as sleep,
-        ):
-            actual = under_test_context.under_test._retrieve_new_pids({100})
-
-        assert actual == set()
-        sleep.assert_called_once_with(0.1)
-
-    def test_given_no_new_process_appears_when_restart_then_does_not_stop_previous_pids(
-        self, under_test_context: UnderTestContext
-    ) -> None:
-        # given
-        ulauncher_ipd = {100}
-
-        with (
-            patch.object(
-                under_test_context.under_test,
-                "retrieve_pids",
-                side_effect=[ulauncher_ipd, ulauncher_ipd, ulauncher_ipd],
-            ),
-            patch.object(under_test_context.under_test, "start") as start,
-            patch.object(under_test_context.under_test, "stop") as stop,
-            patch("src.orchestration.launcher.ulauncher_process_service.time.monotonic", side_effect=[0.0, 1.0, 10.1]),
-            patch("src.orchestration.launcher.ulauncher_process_service.time.sleep"),
-            patch("src.orchestration.launcher.ulauncher_process_service.logger.warning") as logger,
-        ):
-            # when
-            under_test_context.under_test.restart()
-
-        # then
-        start.assert_called_once_with()
-        stop.assert_not_called()
-        logger.assert_called_once_with(
-            "New Ulauncher process did not appear within timeout: timeout=%s interval=%s", 10.0, 0.1
+            "Restarting Ulauncher: previous pids=%s, new pid=%s", {ULAUNCHER_PID}, {ULAUNCHER_RESTARTED_PID}
         )
