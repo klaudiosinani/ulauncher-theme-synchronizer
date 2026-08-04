@@ -48,9 +48,9 @@ class ThemeSynchronizerExtensionFactory:
         preferences_event_listener = PreferencesEventListener(operating_system_mode_watcher)
         system_exit_event_listener = SystemExitEventListener(operating_system_mode_watcher)
 
-        theme_synchronizer_extension.subscribe(KeywordQueryEvent, keyword_query_event_listener)
-        theme_synchronizer_extension.subscribe(PreferencesEvent, preferences_event_listener)
-        theme_synchronizer_extension.subscribe(SystemExitEvent, system_exit_event_listener)
+        theme_synchronizer_extension.subscribe(KeywordQueryEvent, keyword_query_event_listener) # pyright: ignore[reportUnknownMemberType]
+        theme_synchronizer_extension.subscribe(PreferencesEvent, preferences_event_listener) # pyright: ignore[reportUnknownMemberType]
+        theme_synchronizer_extension.subscribe(SystemExitEvent, system_exit_event_listener) # pyright: ignore[reportUnknownMemberType]
 
         return theme_synchronizer_extension
 
