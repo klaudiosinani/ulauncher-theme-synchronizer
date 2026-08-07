@@ -18,7 +18,11 @@ class UlauncherService:
             return
 
         self._ulauncher_settings_service.persist_theme(theme)
-        self._ulauncher_process_service.restart()
+
+        if not self._ulauncher_process_service.restart():
+            logger.warning("Persisted Ulauncher theme but failed to restart: %s", theme)
+            return
+
         logger.info("Activated Ulauncher theme: %s", theme)
 
     def _is_theme_already_active(self, theme: str) -> bool:

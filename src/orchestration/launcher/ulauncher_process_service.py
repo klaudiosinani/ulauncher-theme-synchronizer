@@ -22,7 +22,7 @@ class UlauncherProcessService:
                     return pids
 
             except Exception:
-                logger.exception("PID lookup command failed: command=%s", command, exc_info=True)
+                logger.exception("PID lookup command failed: command=%s", command)
                 continue
 
         return set()
@@ -41,12 +41,14 @@ class UlauncherProcessService:
         for pid in pids:
             os.kill(pid, signal.SIGTERM)
 
-    def restart(self) -> None:
+    def restart(self) -> bool:
         try:
             pids = self.retrieve_pids()
-            new_pid: int = self.start()
+            new_pid = self.start()
             logger.info("Restarting Ulauncher: previous pids=%s, new pid=%s", pids, new_pid)
             self.stop(pids)
+            return True
 
         except Exception as exc:
             logger.exception("Failed to restart Ulauncher: %s", exc)
+            return False
