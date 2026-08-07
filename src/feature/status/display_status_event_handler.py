@@ -1,5 +1,4 @@
 from gi.repository import Gio
-from ulauncher.api.client.Extension import Extension
 from ulauncher.api.shared.action.HideWindowAction import HideWindowAction
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
@@ -20,14 +19,14 @@ class DisplayStatusEventHandler(KeywordQueryEventHandler):
         self._ulauncher_settings_service = ulauncher_settings_service
         self._gio_settings = gio_settings
 
-    def handle(self, extension: Extension) -> RenderResultListAction:
+    def handle(self) -> RenderResultListAction:
         active_mode = self._mode_retrieval_service.retrieve(self._gio_settings)
         active_theme = self._ulauncher_settings_service.retrieve_theme()
 
         return RenderResultListAction(
             [
                 ExtensionResultItem(
-                    icon="images/icon.png",
+                    icon="media/icon.png",
                     name="Theme Synchronizer",
                     description=f"Active mode: {active_mode.value} — Selected theme: {active_theme}",
                     on_enter=HideWindowAction(),
