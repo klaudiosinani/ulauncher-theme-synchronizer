@@ -20,20 +20,26 @@ class TestUlauncherCommandsProvider:
     def test_given_default_constructor_when_get_pgrep_then_returns_pgrep_command(
         self, under_test_context: UnderTestContext
     ) -> None:
+        # when
         result = under_test_context.under_test.get_pgrep()
 
+        # then
         assert result == ["pgrep", "-x", "ulauncher"]
 
     def test_given_default_constructor_when_get_pidof_then_returns_pidof_command(
         self, under_test_context: UnderTestContext
     ) -> None:
+        # when
         result = under_test_context.under_test.get_pidof()
 
+        # then
         assert result == ["pidof", "ulauncher"]
 
     def test_given_default_constructor_when_get_start_then_returns_start_command(
         self, under_test_context: UnderTestContext
     ) -> None:
+        # when
         result = under_test_context.under_test.get_start()
 
+        # then
         assert result == ["bash", "-c", "sleep 1 && ulauncher --hide-window"]

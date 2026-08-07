@@ -2,53 +2,73 @@ from dataclasses import dataclass
 from unittest.mock import MagicMock, patch
 
 import pytest
-from gi.repository import Gio, GLib
+from gi.repository import Gio
 
-from src.feature.synchronization.mode.gnome_desktop_settings import GnomeDesktopSettings
+from src.feature.synchronization.mode.mode import Mode
 from src.feature.synchronization.mode.mode_event_handler import ModeEventHandler
-from src.feature.synchronization.mode.mode_event_listener import ModeEventListener
+from src.feature.synchronization.mode.mode_retrieval_service import ModeRetrievalService
+from src.feature.synchronization.theme.theme_activation_service import ThemeActivationService
+
+COLOR_SCHEME_KEY = "color-scheme"
 
 
 @dataclass
 class UnderTestContext:
-    under_test: ModeEventListener
+    under_test: ModeEventHandler
     gio_settings: MagicMock
-    mode_event_handler: MagicMock
+    mode_retrieval_service: MagicMock
+    theme_activation_service: MagicMock
 
 
 @pytest.fixture
 def under_test_context() -> UnderTestContext:
     gio_settings = MagicMock(spec=Gio.Settings)
-    mode_event_handler = MagicMock(spec=ModeEventHandler)
+    mode_retrieval_service = MagicMock(spec=ModeRetrievalService)
+    theme_activation_service = MagicMock(spec=ThemeActivationService)
 
-    under_test = ModeEventListener(gio_settings, mode_event_handler)
+    under_test = ModeEventHandler(mode_retrieval_service, theme_activation_service)
 
     return UnderTestContext(
         under_test=under_test,
         gio_settings=gio_settings,
-        mode_event_handler=mode_event_handler,
+        mode_retrieval_service=mode_retrieval_service,
+        theme_activation_service=theme_activation_service,
     )
 
 
-@pytest.fixture
-def main_loop_mock() -> MagicMock:
-    return MagicMock(spec=GLib.MainLoop)
-
-
-class TestModeEventListener:
-    def test_given_gio_settings_and_mode_event_handler_when_listen_then_connects_color_scheme_signal_and_runs_main_loop(
-        self, under_test_context: UnderTestContext, main_loop_mock: MagicMock
+class TestModeEventHandler:
+    def test_given_dark_mode_when_handle_then_activates_theme_for_retrieved_mode(
+        self, under_test_context: UnderTestContext
     ) -> None:
         # given
-        with patch(
-            "src.feature.synchronization.mode.mode_event_listener.GLib.MainLoop", return_value=main_loop_mock
-        ) as main_loop_class:
-            # when
-            under_test_context.under_test.listen()
+        under_test_context.mode_retrieval_service.retrieve.return_value = Mode.DARK
+
+        # when
+        under_test_context.under_test.handle(under_test_context.gio_settings, COLOR_SCHEME_KEY)
 
         # then
-        under_test_context.gio_settings.connect.assert_called_once_with(
-            f"changed::{GnomeDesktopSettings.COLOR_SCHEME_KEY}", under_test_context.mode_event_handler.handle
-        )
-        main_loop_class.assert_called_once_with()
-        main_loop_mock.run.assert_called_once_with()
+        under_test_context.mode_retrieval_service.retrieve.assert_called_once_with(under_test_context.gio_settings)
+        under_test_context.theme_activation_service.activate.assert_called_once_with(Mode.DARK)
+
+    def test_given_light_mode_when_handle_then_activates_theme_for_retrieved_mode(
+        self, under_test_context: UnderTestContext
+    ) -> None:
+        # given
+        under_test_context.mode_retrieval_service.retrieve.return_value = Mode.LIGHT
+
+        # when
+        under_test_context.under_test.handle(under_test_context.gio_settings, COLOR_SCHEME_KEY)
+
+        # then
+        under_test_context.theme_activation_service.activate.assert_called_once_with(Mode.LIGHT)
+
+    def test_given_mode_change_when_handle_then_logs_detected_mode(self, under_test_context: UnderTestContext) -> None:
+        # given
+        under_test_context.mode_retrieval_service.retrieve.return_value = Mode.DARK
+
+        with patch("src.feature.synchronization.mode.mode_event_handler.logger.debug") as debug:
+            # when
+            under_test_context.under_test.handle(under_test_context.gio_settings, COLOR_SCHEME_KEY)
+
+        # then
+        debug.assert_called_once_with("Detected Operating System mode change: %s", Mode.DARK.value)

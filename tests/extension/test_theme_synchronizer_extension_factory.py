@@ -34,6 +34,7 @@ class TestThemeSynchronizerExtensionFactory:
     def test_given_valid_composed_dependencies_when_create_then_returns_extension_instance(
         self,
     ) -> None:
+        # given
         with self._arrange_under_test_context() as context:
             # when
             result = context.under_test.create()
@@ -44,6 +45,7 @@ class TestThemeSynchronizerExtensionFactory:
     def test_given_composed_dependencies_when_create_then_watcher_receives_correct_arguments(
         self,
     ) -> None:
+        # given
         with self._arrange_under_test_context() as context:
             # when
             result = context.under_test.create()
@@ -59,6 +61,7 @@ class TestThemeSynchronizerExtensionFactory:
     def test_given_composed_dependencies_when_create_then_display_status_handler_receives_correct_arguments(
         self,
     ) -> None:
+        # given
         with self._arrange_under_test_context() as context:
             # when
             context.under_test.create()
@@ -73,6 +76,7 @@ class TestThemeSynchronizerExtensionFactory:
     def test_given_created_listeners_when_create_then_extension_subscribes_all_event_listeners_in_order(
         self,
     ) -> None:
+        # given
         with self._arrange_under_test_context() as context:
             # when
             result = context.under_test.create()

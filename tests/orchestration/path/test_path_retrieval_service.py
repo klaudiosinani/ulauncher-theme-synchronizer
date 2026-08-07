@@ -32,8 +32,10 @@ class TestPathRetrievalService:
     def test_given_default_constructor_when_retrieve_settings_file_path_then_returns_expanded_json_path(
         self, under_test_context: UnderTestContext
     ) -> None:
+        # when
         result = under_test_context.under_test.retrieve_ulauncher_settings_file_path()
 
+        # then
         assert isinstance(result, pathlib.Path)
         assert result == under_test_context.mock_home / ".config" / "ulauncher" / "settings.json"
         assert result.is_absolute()
