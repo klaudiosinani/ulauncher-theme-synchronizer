@@ -2,7 +2,7 @@
     "required_api_version": "2",
     "name": "Ulauncher Theme Synchronizer",
     "description": "Synchronize Ulauncher with your OS appearance",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "developer_name": "Klaudio Sinani",
     "icon": "media/icon.png",
     "options": {
