@@ -1,3 +1,7 @@
+<div align="center">
+  <img alt="Icon" width="18%" src="images/icon.png"/>
+</div>
+
 <h1 align="center">
   Ulauncher Theme Synchronizer
 </h1>
@@ -5,10 +9,6 @@
 <h4 align="center">
   Synchronize Ulauncher with your OS appearance
 </h4>
-
-<div align="center">
-  <img alt="Icon" width="18%" src="images/icon.png"/>
-</div>
 
 ## Description
 
