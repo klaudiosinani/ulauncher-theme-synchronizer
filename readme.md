@@ -41,6 +41,7 @@ You can now support the development process through [GitHub Sponsors](https://gi
 - [Configuration](#configuration)
 - [Flight Manual](#flight-manual)
 - [Development](#development)
+  - [Tasks](#tasks)
 - [Team](#team)
 - [License](#license)
 
