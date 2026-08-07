@@ -1,9 +1,8 @@
 from abc import ABC, abstractmethod
 
-from ulauncher.api.client.Extension import Extension
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
 
 
 class KeywordQueryEventHandler(ABC):
     @abstractmethod
-    def handle(self, extension: Extension) -> RenderResultListAction: ...
+    def handle(self) -> RenderResultListAction: ...
