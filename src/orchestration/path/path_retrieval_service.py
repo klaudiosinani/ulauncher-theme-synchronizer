@@ -1,7 +1,8 @@
 import os
 import pathlib
+from typing import Final
 
-ULAUNCHER_SETTINGS_JSON = "~/.config/ulauncher/settings.json"
+ULAUNCHER_SETTINGS_JSON: Final = "~/.config/ulauncher/settings.json"
 
 
 class PathRetrievalService:

@@ -1,6 +1,8 @@
+from typing import Final
+
 from src.feature.synchronization.mode.mode import Mode
 
-DARK_KEYWORD = "dark"
+DARK_KEYWORD: Final = "dark"
 
 
 class ModeParser:
