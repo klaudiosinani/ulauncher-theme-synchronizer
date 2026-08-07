@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 from gi.repository import Gio, GLib
 
-from feature.synchronization.mode.gnome_desktop_settings import GnomeDesktopSettings
+from src.feature.synchronization.mode.gnome_desktop_settings import GnomeDesktopSettings
 from src.feature.synchronization.mode.mode_event_handler import ModeEventHandler
 from src.feature.synchronization.mode.mode_event_listener import ModeEventListener
 

@@ -1,6 +1,6 @@
 from ulauncher.api.client.Extension import Extension
 
-from extension.theme_synchronizer_extension import ThemeSynchronizerExtension
+from src.extension.theme_synchronizer_extension import ThemeSynchronizerExtension
 
 
 class TestThemeSynchronizerExtension:
