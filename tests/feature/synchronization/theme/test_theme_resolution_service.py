@@ -59,3 +59,14 @@ class TestThemeResolutionService:
         # then
         assert result == "hypersky"
         under_test_context.theme_parser.parse.assert_called_once_with(Mode.LIGHT)
+
+    def test_given_missing_preference_when_resolve_then_raises_key_error(
+        self, under_test_context: UnderTestContext
+    ) -> None:
+        # given
+        under_test_context.theme_parser.parse.return_value = Theme.DARK
+        under_test_context.extension.preferences = {}
+
+        # when & then
+        with pytest.raises(KeyError, match=r"Preference 'dark_theme' not found in extension preferences"):
+            under_test_context.under_test.resolve(Mode.DARK)

@@ -11,4 +11,9 @@ class ThemeResolutionService:
 
     def resolve(self, mode: Mode) -> str:
         theme = self._theme_parser.parse(mode)
-        return self._extension.preferences[theme.value]
+        preferences: dict[str, str] = self._extension.preferences
+
+        if theme.value not in preferences:
+            raise KeyError(f"Preference '{theme.value}' not found in extension preferences")
+
+        return preferences[theme.value]
