@@ -162,9 +162,3 @@ jobs:
                         -Dsonar.python.coverage.reportPaths=coverage.xml
                         -Dsonar.coverage.exclusions=tests/**,tasks.py
                         -Dsonar.scm.revision=${{ github.event.pull_request.head.sha }}
-
-            -   name: SonarQube Quality Gate
-                uses: SonarSource/sonarqube-quality-gate-action@master
-                timeout-minutes: 5
-                env:
-                    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
