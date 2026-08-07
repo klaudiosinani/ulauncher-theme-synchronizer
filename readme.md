@@ -22,6 +22,8 @@ In a nutshell, the extension observes the GNOME `color-scheme` setting from a ba
 
 Use the `uts` query keyword at any moment to inspect the currently detected mode and the selected theme.
 
+View the plugin on the official [Ulauncher extensions page](https://ext.ulauncher.io/-/github-klaudiosinani-ulauncher-theme-synchronizer).
+
 You can now support the development process through [GitHub Sponsors](https://github.com/sponsors/klaudiosinani).
 
 ## Highlights
