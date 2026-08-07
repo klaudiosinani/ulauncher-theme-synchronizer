@@ -212,7 +212,7 @@ The test suite stubs the `gi` and `ulauncher` modules, hence neither Ulauncher n
 
 ### Tasks
 
-Development is driven by [invoke](https://www.pyinvoke.org). All the available tasks, together with their aliases, are listed at any moment through `inv --list`, while `inv` on its own runs the default `test` task.
+All the available tasks, together with their aliases, are listed at any moment through `inv --list`, while `inv` on its own runs the default `test` task.
 
 | Task     | Alias | Description                                                  |
 | -------- |----- | ------------------------------------------------------------ |
