@@ -76,3 +76,22 @@ class TestUlauncherService:
 
         # then
         info_mock.assert_called_once_with("Ulauncher theme already active: %s", "dark-theme")
+
+    def test_given_restart_fails_when_activate_theme_then_warns_and_does_not_report_activation(
+        self, under_test_context: UnderTestContext
+    ) -> None:
+        # given
+        under_test_context.ulauncher_settings_service.retrieve_theme.return_value = "light"
+        under_test_context.ulauncher_process_service.restart.return_value = False
+
+        with (
+            patch("src.orchestration.launcher.ulauncher_service.logger.warning") as warning,
+            patch("src.orchestration.launcher.ulauncher_service.logger.info") as info,
+        ):
+            # when
+            under_test_context.under_test.activate_theme("dark")
+
+        # then
+        under_test_context.ulauncher_settings_service.persist_theme.assert_called_once_with("dark")
+        warning.assert_called_once_with("Persisted Ulauncher theme but failed to restart: %s", "dark")
+        info.assert_not_called()

@@ -107,6 +107,7 @@ class TestUlauncherProcessService:
             # when
             under_test_context.under_test.stop(ulauncher_pids)
 
+        # then
         kill.assert_has_calls([call(1234, signal.SIGTERM), call(5678, signal.SIGTERM)], any_order=True)
 
     def test_given_new_process_appears_when_restart_then_starts_and_stops_previous_pids(
@@ -129,3 +130,36 @@ class TestUlauncherProcessService:
         logger.assert_called_once_with(
             "Restarting Ulauncher: previous pids=%s, new pid=%s", {ULAUNCHER_PID}, {ULAUNCHER_RESTARTED_PID}
         )
+
+    def test_given_successful_restart_when_restart_then_returns_true(
+        self, under_test_context: UnderTestContext
+    ) -> None:
+        # given
+        with (
+            patch.object(under_test_context.under_test, "retrieve_pids", return_value={ULAUNCHER_PID}),
+            patch.object(under_test_context.under_test, "start", return_value=ULAUNCHER_RESTARTED_PID),
+            patch.object(under_test_context.under_test, "stop"),
+        ):
+            # when
+            actual = under_test_context.under_test.restart()
+
+        # then
+        assert actual is True
+
+    def test_given_start_raises_when_restart_then_logs_exception_and_returns_false(
+        self, under_test_context: UnderTestContext
+    ) -> None:
+        # given
+        with (
+            patch.object(under_test_context.under_test, "retrieve_pids", return_value={ULAUNCHER_PID}),
+            patch.object(under_test_context.under_test, "start", side_effect=OSError("start failed")),
+            patch.object(under_test_context.under_test, "stop") as stop,
+            patch("src.orchestration.launcher.ulauncher_process_service.logger.exception") as exception,
+        ):
+            # when
+            actual = under_test_context.under_test.restart()
+
+        # then
+        assert actual is False
+        stop.assert_not_called()
+        exception.assert_called_once()
