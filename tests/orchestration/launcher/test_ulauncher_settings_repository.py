@@ -37,10 +37,13 @@ class TestUlauncherSettingsRepository:
     def test_given_settings_json_file_when_retrieve_then_returns_deserialized_dictionary(
         self, under_test_context: UnderTestContext
     ) -> None:
+        # given
         under_test_context.settings_file_path.read_text.return_value = '{"theme": "dark"}'
 
+        # when
         result = under_test_context.under_test.retrieve()
 
+        # then
         assert result == _SETTINGS_DATASET
         under_test_context.path_retrieval_service.retrieve_ulauncher_settings_file_path.assert_called_once_with()
         under_test_context.settings_file_path.read_text.assert_called_once_with(encoding="utf-8")
@@ -48,8 +51,10 @@ class TestUlauncherSettingsRepository:
     def test_given_settings_dataset_when_persist_then_serializes_to_json_and_writes_atomically_with_correct_indentation(
         self, under_test_context: UnderTestContext
     ) -> None:
+        # when
         under_test_context.under_test.persist(_SETTINGS_DATASET)
 
+        # then
         under_test_context.path_retrieval_service.retrieve_ulauncher_settings_file_path.assert_called_once_with()
         under_test_context.atomic_file_service.write.assert_called_once_with(
             under_test_context.settings_file_path, '{\n  "theme": "dark"\n}'
