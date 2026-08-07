@@ -15,9 +15,9 @@ class OperatingSystemModeWatcher:
         self._key = key
         self._lock = threading.Lock()
         self._is_started = False
-        self._handler_id = None
-        self._glib_loop = None
-        self._thread = None
+        self._handler_id: int | None = None
+        self._glib_loop: GLib.MainLoop | None = None
+        self._thread: threading.Thread | None = None
 
     def start(self) -> None:
         with self._lock:
@@ -54,5 +54,7 @@ class OperatingSystemModeWatcher:
             logger.info("Operating System mode watcher stopped")
 
     def _execute_loop(self) -> None:
-        if self._glib_loop is not None:
-            self._glib_loop.run()
+        glib_loop = self._glib_loop
+
+        if glib_loop is not None:
+            glib_loop.run()
