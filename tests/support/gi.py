@@ -1,4 +1,5 @@
 import types
+from collections.abc import Callable
 from typing import Any
 from unittest.mock import MagicMock
 
@@ -6,14 +7,14 @@ from tests.support.module_registry import package, register
 
 
 class GioSettingsStub:
-    def connect(self, detailed_signal: str, callback: Any):
+    def connect(self, detailed_signal: str, callback: Callable[..., None]) -> int:
         return 1
 
-    def disconnect(self, detailed_signal: str):
+    def disconnect(self, handler_id: int) -> int:
         return 1
 
     @staticmethod
-    def new(schema_id: str):
+    def new(schema_id: str) -> MagicMock:
         return MagicMock(name=f"GioSettings({schema_id})", spec=GioSettingsStub)
 
 

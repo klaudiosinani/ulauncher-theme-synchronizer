@@ -12,4 +12,3 @@ class KeywordQueryEventListener(EventListener):
 
     def on_event(self, event: KeywordQueryEvent, extension: Extension) -> RenderResultListAction:
         return self._display_status_event_handler.handle(extension)
-

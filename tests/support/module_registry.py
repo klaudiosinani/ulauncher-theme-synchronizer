@@ -1,9 +1,8 @@
 import sys
 import types
-from typing import Any
 
 
-def package(name: str) -> Any:
+def package(name: str) -> types.ModuleType:
     module = types.ModuleType(name)
     module.__path__ = []
     return module

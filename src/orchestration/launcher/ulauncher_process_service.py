@@ -8,7 +8,6 @@ from src.orchestration.log import logging_service
 logger = logging_service.get(__name__)
 
 
-
 class UlauncherProcessService:
     def __init__(self, ulauncher_commands_provider: UlauncherCommandsProvider) -> None:
         self._ulauncher_commands_provider = ulauncher_commands_provider

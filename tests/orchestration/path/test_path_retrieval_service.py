@@ -29,7 +29,7 @@ def under_test_context(tmp_path: pathlib.Path) -> UnderTestContext:
 
 
 class TestPathRetrievalService:
-    def test_given_default_constructor_when_retrieve_ulauncher_settings_file_path_then_returns_ulauncher_settings_json_path(
+    def test_given_default_constructor_when_retrieve_settings_file_path_then_returns_expanded_json_path(
         self, under_test_context: UnderTestContext
     ) -> None:
         result = under_test_context.under_test.retrieve_ulauncher_settings_file_path()
