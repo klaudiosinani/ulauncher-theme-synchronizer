@@ -48,3 +48,25 @@ class TestAtomicFileService:
         temporary_file.flush.assert_called_once_with()
         fsync.assert_called_once_with(123)
         replace.assert_called_once_with(temporary_file.name, under_test_context.path)
+
+    def test_given_replace_fails_when_write_then_removes_temporary_file_and_reraises(
+        self, under_test_context: UnderTestContext
+    ) -> None:
+        # given
+        temporary_file = MagicMock()
+        temporary_file.name = "/tmp/settings.tmp"
+        temporary_file.fileno.return_value = 123
+
+        with (
+            patch("src.orchestration.file.atomic_file_service.tempfile.NamedTemporaryFile") as temporary_named_file,
+            patch("src.orchestration.file.atomic_file_service.os.fsync"),
+            patch("src.orchestration.file.atomic_file_service.os.replace", side_effect=OSError("replace failed")),
+            patch("src.orchestration.file.atomic_file_service.os.unlink") as unlink,
+        ):
+            temporary_named_file.return_value.__enter__.return_value = temporary_file
+
+            # when & then
+            with pytest.raises(OSError, match="replace failed"):
+                under_test_context.under_test.write(under_test_context.path, "content")
+
+        unlink.assert_called_once_with(temporary_file.name)
