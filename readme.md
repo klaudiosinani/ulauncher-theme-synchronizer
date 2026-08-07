@@ -1,5 +1,5 @@
 <div align="center">
-  <img alt="Icon" width="18%" src="images/icon.png"/>
+  <img alt="Icon" width="14%" src="media/icon.png"/>
 </div>
 
 <h1 align="center">
@@ -9,6 +9,10 @@
 <h4 align="center">
   Synchronize Ulauncher with your OS appearance
 </h4>
+
+<div align="center">
+  <img alt="Header" src="media/header.png" width="80%">
+</div>
 
 ## Description
 
