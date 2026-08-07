@@ -1,9 +1,11 @@
+from typing import Final
+
 from src.orchestration.launcher.ulauncher_settings_repository import UlauncherSettingsRepository
 from src.orchestration.log import logging_service
 
 logger = logging_service.get(__name__)
 
-THEME_KEY = "theme-name"
+THEME_KEY: Final = "theme-name"
 
 
 class UlauncherSettingsService:
@@ -22,7 +24,12 @@ class UlauncherSettingsService:
         if key not in settings:
             raise KeyError(f"Property '{key}' not found in Ulauncher settings")
 
-        return settings[key]
+        value = settings[key]
+
+        if not isinstance(value, str):
+            raise TypeError(f"Property '{key}' in Ulauncher settings is not a string: {type(value).__name__}")
+
+        return value
 
     def _persist_property(self, key: str, value: str) -> None:
         settings = self._ulauncher_settings_repository.retrieve()
