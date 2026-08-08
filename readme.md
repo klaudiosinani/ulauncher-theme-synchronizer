@@ -26,6 +26,19 @@ View the plugin on the official [Ulauncher extensions page](https://ext.ulaunche
 
 You can now support the development process through [GitHub Sponsors](https://github.com/sponsors/klaudiosinani).
 
+Visit the [contributing guidelines](https://github.com/klaudiosinani/ulauncher-theme-synchronizer/blob/main/contributing.md#translating-documentation) to learn more on how to translate this document into more languages.
+
+## Status
+
+<div style="display: inline-flex; gap: 8px; flex-wrap: wrap;">
+
+<a href="https://github.com/klaudiosinani/ulauncher-theme-synchronizer/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/klaudiosinani/ulauncher-theme-synchronizer/actions/workflows/ci.yml/badge.svg"></a>
+<a href="https://github.com/klaudiosinani/ulauncher-theme-synchronizer/actions/workflows/cd.yml"><img alt="CD" src="https://github.com/klaudiosinani/ulauncher-theme-synchronizer/actions/workflows/cd.yml/badge.svg"></a>
+<a href="https://codecov.io/gh/klaudiosinani/ulauncher-theme-synchronizer"><img alt="Coverage" src="https://codecov.io/gh/klaudiosinani/ulauncher-theme-synchronizer/graph/badge.svg"></a>
+<a href="https://github.com/klaudiosinani/ulauncher-theme-synchronizer/releases"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/klaudiosinani/ulauncher-theme-synchronizer?label=Lastest%20Version&color=%2332C955"></a>
+
+</div>
+
 ## Highlights
 
 - Automatic light & dark theme switching
@@ -36,6 +49,7 @@ You can now support the development process through [GitHub Sponsors](https://gi
 ## Contents
 
 - [Description](#description)
+- [Status](#status)
 - [Highlights](#highlights)
 - [Requirements](#requirements)
 - [Install](#install)
